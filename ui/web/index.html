@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS Spatial Holographic HUD & Fleet Command</title>
+    <link rel="stylesheet" href="/static/css/hud.css">
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="hud-container">
+        <!-- Background Grid & Scanline FX -->
+        <div class="hud-scanlines"></div>
+        <div class="hud-grid"></div>
+
+        <!-- Central 3D Holographic Arc Reactor Canvas -->
+        <div id="arc-reactor"></div>
+
+        <!-- Top Header Status Bar -->
+        <div id="top-bar">
+            <div class="hud-logo">J.A.R.V.I.S. // MARK VII</div>
+            <div class="hud-subhead">Autonomous Spatial Intelligence & Fleet Control Platform</div>
+            <div id="hud-clock" class="hud-badge">00:00:00 UTC</div>
+        </div>
+
+        <!-- Left Top: Status & Telemetry Panel -->
+        <div id="status-panel" class="hud-panel">
+            <div class="panel-header">CORE TELEMETRY</div>
+            <h2>SYSTEM: <span id="sys-state" class="state-idle">IDLE</span></h2>
+            <p id="sub-state">Awaiting vocal or spatial input...</p>
+            
+            <div class="metric-row">
+                <span class="metric-label">SPATIAL TRACKING:</span>
+                <span id="gesture-mode" class="metric-value">STANDBY</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">COORDINATES:</span>
+                <span id="spatial-coords" class="metric-value">X:0.00 Y:0.00 Z:0.00</span>
+            </div>
+            <div class="metric-row">
+                <span class="metric-label">NEURAL INTERFACE:</span>
+                <span class="metric-value active">ONLINE</span>
+            </div>
+        </div>
+
+        <!-- Left Bottom: Connected Fleet & Devices Panel -->
+        <div id="fleet-panel" class="hud-panel">
+            <div class="panel-header">
+                <span>CONNECTED FLEET (<span id="fleet-count">0</span>)</span>
+                <span id="fleet-status-dot" class="status-indicator"></span>
+            </div>
+            <div id="fleet-node-list">
+                <div class="no-nodes-msg">No remote nodes online.<br><span class="code-hint">Run 'python nodes/agent_daemon.py'</span></div>
+            </div>
+        </div>
+
+        <!-- Right Diagnostics / Event Logs Panel -->
+        <div id="logs-panel" class="hud-panel">
+            <div class="panel-header">DIAGNOSTIC EVENT FEED</div>
+            <div id="event-logs">
+                <div class="log-entry info">[SYSTEM] Core kernel booting...</div>
+                <div class="log-entry info">[SYSTEM] Vision & audio pipelines loaded.</div>
+                <div class="log-entry info">[FLEET] Central node coordinator listening.</div>
+            </div>
+        </div>
+
+        <!-- Bottom Command Prompt Overlay -->
+        <div id="bottom-console">
+            <div class="input-wrapper">
+                <span class="prompt-arrow">&gt;&gt;</span>
+                <input type="text" id="hud-command-input" placeholder="Type a directive or speak to JARVIS..." autocomplete="off">
+                <button id="hud-send-btn">DISPATCH</button>
+            </div>
+        </div>
+
+        <!-- Spatial Hand Cursor Follower -->
+        <div id="hand-pointer"></div>
+    </div>
+
+    <!-- Modular HUD Scripts -->
+    <script src="/static/js/websocket.js"></script>
+    <script src="/static/js/scene.js"></script>
+    <script src="/static/js/hand_cursor.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

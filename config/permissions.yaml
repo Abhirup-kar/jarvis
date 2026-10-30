@@ -1,0 +1,37 @@
+# Permissions Policy: auto_approve | require_confirmation | deny
+default_policy: auto_approve
+
+tools:
+  # General & System Telemetry
+  get_system_status: auto_approve
+  home_assistant_control: auto_approve
+  mqtt_publish: auto_approve
+  read_document: auto_approve
+  write_document: auto_approve
+  list_documents: auto_approve
+  web_search: auto_approve
+  google_calendar_view: auto_approve
+  
+  # Desktop Vision, GUI, & Workspace Automation
+  take_desktop_screenshot: auto_approve
+  manage_desktop_windows: auto_approve
+  desktop_click_and_type: auto_approve
+  clipboard_control: auto_approve
+  open_browser: auto_approve
+  launch_application: auto_approve
+  
+  # Media & Music Playback
+  play_music_or_video: auto_approve
+  control_browser_tabs: auto_approve
+  control_volume_and_media: auto_approve
+  
+  # Remote Fleet Coordination
+  list_connected_nodes: auto_approve
+  remote_machine_control: auto_approve
+  send_notification: auto_approve
+
+  # Security-Sensitive Operations (Requires User Confirmation)
+  manage_system_files: auto_approve
+  manage_system_processes: require_confirmation
+  send_email: require_confirmation
+  execute_terminal_command: auto_approve

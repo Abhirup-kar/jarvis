@@ -1,0 +1,433 @@
+/* ==========================================================================
+   JARVIS Holographic HUD Styling - Mark VII Futuristic Cyber Interface
+   ========================================================================== */
+
+:root {
+    --hud-cyan: #00e5ff;
+    --hud-cyan-dim: rgba(0, 229, 255, 0.4);
+    --hud-cyan-glow: rgba(0, 229, 255, 0.25);
+    --hud-amber: #ffb300;
+    --hud-red: #ff3366;
+    --hud-green: #00ffcc;
+    --hud-bg-dark: #03080e;
+    --hud-panel-bg: rgba(2, 16, 28, 0.72);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--hud-bg-dark);
+    color: var(--hud-cyan);
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    user-select: none;
+}
+
+#hud-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 3D Canvas Background */
+#arc-reactor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Scanlines and Grid Overlays */
+.hud-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.3) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.hud-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to right, rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Top Header Bar */
+#top-bar {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--hud-cyan-dim);
+    padding-bottom: 10px;
+    z-index: 10;
+}
+
+.hud-logo {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-shadow: 0 0 10px var(--hud-cyan);
+}
+
+.hud-subhead {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--hud-cyan-dim);
+}
+
+.hud-badge {
+    padding: 4px 12px;
+    border: 1px solid var(--hud-cyan);
+    background: rgba(0, 229, 255, 0.1);
+    font-size: 13px;
+    box-shadow: 0 0 8px var(--hud-cyan-glow);
+}
+
+/* HUD Panels */
+.hud-panel {
+    position: absolute;
+    background: var(--hud-panel-bg);
+    border: 1px solid var(--hud-cyan-dim);
+    padding: 20px;
+    box-shadow: 0 0 20px var(--hud-cyan-glow);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.panel-header {
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+    color: var(--hud-cyan-dim);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#status-panel {
+    top: 80px;
+    left: 40px;
+    width: 320px;
+}
+
+#status-panel h2 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+#status-panel p {
+    margin: 0 0 16px 0;
+    font-size: 12px;
+    color: #88ccdd;
+    line-height: 1.4;
+}
+
+.metric-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.metric-label {
+    color: var(--hud-cyan-dim);
+}
+
+.metric-value {
+    color: var(--hud-cyan);
+    font-weight: bold;
+}
+
+.metric-value.active {
+    color: var(--hud-green);
+    text-shadow: 0 0 6px var(--hud-green);
+}
+
+/* Connected Fleet Panel */
+#fleet-panel {
+    top: 320px;
+    left: 40px;
+    width: 320px;
+    max-height: 280px;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--hud-green);
+    box-shadow: 0 0 8px var(--hud-green);
+}
+
+#fleet-node-list {
+    max-height: 200px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.no-nodes-msg {
+    font-size: 11px;
+    color: var(--hud-cyan-dim);
+    line-height: 1.4;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.code-hint {
+    font-size: 9px;
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+.node-card {
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    padding: 8px 10px;
+    border-radius: 2px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.node-card:hover {
+    border-color: var(--hud-cyan);
+    box-shadow: 0 0 10px var(--hud-cyan-glow);
+}
+
+.node-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.node-os-badge {
+    font-size: 9px;
+    padding: 1px 4px;
+    border: 1px solid var(--hud-cyan-dim);
+    border-radius: 2px;
+    color: var(--hud-cyan);
+}
+
+.node-metrics {
+    display: flex;
+    gap: 12px;
+    font-size: 10px;
+    color: #88ccdd;
+}
+
+.node-metric-val {
+    color: var(--hud-green);
+    font-weight: bold;
+}
+
+/* Event Logs Panel */
+#logs-panel {
+    top: 80px;
+    right: 40px;
+    width: 380px;
+    max-height: 480px;
+}
+
+#event-logs {
+    height: 400px;
+    overflow-y: auto;
+    font-size: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#event-logs::-webkit-scrollbar {
+    width: 4px;
+}
+
+#event-logs::-webkit-scrollbar-thumb {
+    background: var(--hud-cyan-dim);
+}
+
+.log-entry {
+    padding: 3px 6px;
+    border-left: 2px solid var(--hud-cyan-dim);
+    line-height: 1.3;
+}
+
+.log-entry.info {
+    color: #88ddff;
+}
+
+.log-entry.state {
+    color: var(--hud-amber);
+    border-left-color: var(--hud-amber);
+}
+
+.log-entry.success {
+    color: var(--hud-green);
+    border-left-color: var(--hud-green);
+}
+
+.log-entry.warn {
+    color: var(--hud-amber);
+    border-left-color: var(--hud-amber);
+}
+
+.log-entry.error {
+    color: var(--hud-red);
+    border-left-color: var(--hud-red);
+}
+
+.log-entry.user {
+    color: #ffffff;
+    border-left-color: #ffffff;
+}
+
+/* State Color Modifiers */
+.state-idle { color: var(--hud-cyan); text-shadow: 0 0 8px var(--hud-cyan); }
+.state-listening { color: var(--hud-green); text-shadow: 0 0 10px var(--hud-green); }
+.state-thinking { color: var(--hud-amber); text-shadow: 0 0 10px var(--hud-amber); }
+.state-executing { color: var(--hud-red); text-shadow: 0 0 10px var(--hud-red); }
+.state-speaking { color: #ffffff; text-shadow: 0 0 12px var(--hud-cyan); }
+
+/* Bottom Command Console */
+#bottom-console {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    max-width: 90vw;
+    z-index: 10;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--hud-panel-bg);
+    border: 1px solid var(--hud-cyan);
+    box-shadow: 0 0 15px var(--hud-cyan-glow);
+    padding: 6px 12px;
+}
+
+.prompt-arrow {
+    color: var(--hud-cyan);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#hud-command-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+#hud-send-btn {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid var(--hud-cyan);
+    color: var(--hud-cyan);
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+#hud-send-btn:hover {
+    background: rgba(0, 229, 255, 0.35);
+    box-shadow: 0 0 10px var(--hud-cyan);
+}
+
+/* Spatial Hand Pointer */
+#hand-pointer {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--hud-cyan);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 0 12px var(--hud-cyan);
+    transition: width 0.08s, height 0.08s, background-color 0.08s, border-color 0.08s;
+    z-index: 999;
+    display: none;
+}
+
+#hand-pointer.pinching {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 51, 102, 0.6);
+    border-color: var(--hud-red);
+    box-shadow: 0 0 20px var(--hud-red);
+}
+
+#hand-pointer.open-palm {
+    width: 44px;
+    height: 44px;
+    border-style: dashed;
+    border-color: var(--hud-green);
+    box-shadow: 0 0 15px var(--hud-green);
+}
+
+/* Ripple effect on gestures */
+.hud-ripple {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--hud-cyan);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 998;
+    animation: ripple-anim 0.5s ease-out forwards;
+}
+
+@keyframes ripple-anim {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 1;
+    }
+    100% {
+        width: 80px;
+        height: 80px;
+        opacity: 0;
+    }
+}

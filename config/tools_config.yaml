@@ -1,0 +1,57 @@
+# Tools Configuration for JARVIS Assistant
+# Define parameters, defaults, and credentials mapping for modular tools.
+
+smart_home:
+  home_assistant:
+    url: "${HOME_ASSISTANT_URL:-http://localhost:8123}"
+    token: "${HOME_ASSISTANT_TOKEN:-}"
+    timeout_seconds: 5
+    default_domains:
+      - light
+      - switch
+      - climate
+      - media_player
+  mqtt:
+    broker: "${MQTT_BROKER:-localhost}"
+    port: 1883
+    keepalive: 60
+    base_topic: "home/jarvis"
+    qos: 0
+    retain: false
+
+staff_automations:
+  email:
+    smtp_server: "${SMTP_SERVER:-smtp.gmail.com}"
+    smtp_port: 587
+    use_tls: true
+    sender_email: "${SENDER_EMAIL:-jarvis.assistant.ai@gmail.com}"
+    sender_password: "${SENDER_PASSWORD:-}"
+    default_subject_prefix: "[JARVIS Automated Alert]"
+  webhook:
+    default_webhook_url: "${SLACK_OR_DISCORD_WEBHOOK_URL:-}"
+    timeout_seconds: 8
+  documents:
+    storage_root: "storage"
+    allowed_extensions:
+      - ".txt"
+      - ".md"
+      - ".json"
+      - ".csv"
+      - ".log"
+      - ".py"
+    max_read_chars: 100000
+
+system:
+  os_control:
+    allowed_commands:
+      - "ls"
+      - "df"
+      - "free"
+      - "uptime"
+      - "whoami"
+      - "date"
+    monitor_interval: 1.0
+  desktop_bot:
+    failsafe: true
+    mouse_move_duration: 0.2
+    typing_interval: 0.05
