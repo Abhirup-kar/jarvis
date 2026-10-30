@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  jarvis-core:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jarvis_core
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - JARVIS_HOST=0.0.0.0
+      - JARVIS_PORT=8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage:/app/storage
+      - ./config:/app/config
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: jarvis_redis
+    restart: always
+    volumes:
+      - redis_data:/data
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: jarvis_ssl_proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - jarvis-core
+
+volumes:
+  redis_data:
+  caddy_data:
+  caddy_config:
+

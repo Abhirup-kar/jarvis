@@ -1,0 +1,16 @@
+# Production Caddy Reverse Proxy with Automatic SSL (Let's Encrypt)
+# Replace 'jarvis.example.com' with your actual domain name
+
+:80 {
+    # Central API & Web Holographic HUD
+    reverse_proxy jarvis-core:8000
+}
+
+# When using a custom domain with HTTPS:
+# jarvis.yourdomain.com {
+#     encode gzip zstd
+#     reverse_proxy jarvis-core:8000 {
+#         header_up X-Real-IP {remote_host}
+#     }
+# }
+
